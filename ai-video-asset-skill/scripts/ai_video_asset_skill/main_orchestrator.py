@@ -834,8 +834,8 @@ def main() -> None:
     scene_assets_parser.add_argument("--overwrite", action="store_true")
     scene_assets_parser.add_argument("--ffmpeg-path")
     scene_assets_parser.add_argument("--remwm-root")
-    scene_assets_parser.add_argument("--transnet-root", help="旧项目 picVideos 根目录，默认自动查找")
-    scene_assets_parser.add_argument("--transnet-python", help="含 TensorFlow 的 Python，可指向 picVideos\\.venv\\Scripts\\python.exe")
+    scene_assets_parser.add_argument("--transnet-root", help="TransNetV2 根目录；也可用 AI_VIDEO_TRANSNET_ROOT")
+    scene_assets_parser.add_argument("--transnet-python", help="含 TensorFlow 的 Python；也可用 AI_VIDEO_TRANSNET_PYTHON")
     scene_assets_parser.add_argument("--transnet-weights", help="TransNetV2 权重目录")
 
     high_value_frames_parser = subparsers.add_parser("prepare-high-value-video-frame-queue", help="按第二轮市场信号选择前 10 个可拆帧视频")

@@ -812,13 +812,8 @@ def _resolve_ffmpeg(ffmpeg_path: str | Path | None) -> Path:
     env_path = os.environ.get("AI_VIDEO_FFMPEG")
     if env_path:
         candidates.append(Path(env_path))
-    skill_file = Path(__file__).resolve()
-    candidates.extend(
-        [
-            skill_file.parents[4] / "picVideos" / "ffmpeg" / "bin" / "ffmpeg.exe",
-            Path("ffmpeg"),
-        ]
-    )
+    candidates.extend(root / "ffmpeg" / "bin" / "ffmpeg.exe" for root in _picvideos_roots())
+    candidates.append(Path("ffmpeg"))
     for candidate in candidates:
         if str(candidate) == "ffmpeg":
             return candidate
@@ -835,14 +830,29 @@ def _resolve_remwm(remwm_root: str | Path | None) -> tuple[Path, Path]:
     env_path = os.environ.get("AI_VIDEO_REMWM_ROOT")
     if env_path:
         candidates.append(Path(env_path))
-    skill_file = Path(__file__).resolve()
-    candidates.append(skill_file.parents[4] / "picVideos" / "remwm-win")
+    candidates.extend(root / "remwm-win" for root in _picvideos_roots())
     for root in candidates:
         remwm_exe = root / "bin" / "remwm-bin" / "remwm.exe"
         model_path = root / "models" / "big-lama.pt"
         if remwm_exe.exists() and model_path.exists():
             return remwm_exe, model_path
     raise RuntimeError("remwm.exe 或 big-lama.pt 不存在")
+
+
+def _picvideos_roots() -> List[Path]:
+    skill_root = Path(__file__).resolve().parents[2]
+    roots = [
+        skill_root.parent / "picVideos",
+        skill_root.parent.parent / "picVideos",
+    ]
+    output: List[Path] = []
+    seen = set()
+    for root in roots:
+        key = str(root)
+        if key not in seen:
+            seen.add(key)
+            output.append(root)
+    return output
 
 
 def _imwrite(path: Path, image: Any) -> None:

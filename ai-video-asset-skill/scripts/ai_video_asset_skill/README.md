@@ -24,6 +24,29 @@ python .\run_mvp.py register-image --project-dir .\projects\<项目目录> --sho
 python .\run_mvp.py run --total-shots 20 --output-root .\projects --provider mock_placeholder
 ```
 
+## 本地依赖
+
+首次运行先安装 Python 依赖并做自检：
+
+```powershell
+cd ..\..
+python -m pip install -r .\requirements.txt
+python .\scripts\check_runtime.py
+```
+
+公开视频小样拆帧需要 `opencv-python`、`numpy` 和 `Pillow`。`m3u8` 下载需要 `ffmpeg`；高质量去水印可选配置 `remwm`；TransNetV2 场景切分需要额外配置模型权重和含 TensorFlow 的 Python 环境。推荐通过环境变量配置：
+
+```powershell
+$env:AI_VIDEO_FFMPEG="D:\tools\ffmpeg\bin\ffmpeg.exe"
+$env:AI_VIDEO_REMWM_ROOT="D:\tools\remwm-win"
+$env:AI_VIDEO_TRANSNET_ROOT="D:\tools\picVideos"
+$env:AI_VIDEO_TRANSNET_PYTHON="D:\tools\picVideos\.venv\Scripts\python.exe"
+$env:AI_VIDEO_TRANSNET_WEIGHTS="D:\tools\picVideos\transnetv2-weights"
+python .\scripts\check_runtime.py --strict-video
+```
+
+为兼容原本地环境，脚本仍会尝试查找 skill 附近的 `picVideos/` 目录；公开安装用户应优先使用上面的环境变量或命令行参数。
+
 ## 常用命令
 
 ```powershell
@@ -39,7 +62,7 @@ python .\run_mvp.py export-approved --project-dir .\projects\<项目目录>
 ```
 
 `collect-video-frames` 默认抽关键帧并写入 `00_调研/视频参考帧/`，用 `视频参考帧清单.json` 和 jsonl 索引供后续 agent 检索。确需逐帧保存时才使用 `--mode every-frame --max-frames 0`。
-`collect-scene-frames` 使用旧项目 TransNetV2 环境做场景切分，每个场景中点只取一张代表图，并复用 `remwm/opencv/none` 去水印后端。
+`collect-scene-frames` 使用 `AI_VIDEO_TRANSNET_*` 或命令行参数指定的 TransNetV2 环境做场景切分，每个场景中点只取一张代表图，并复用 `remwm/opencv/none` 去水印后端。
 `collect-high-value-video-frames` 默认先采集前 10 个高价值公开视频预览；如果一场一帧后的总参考帧少于 300 张，会继续按市场信号补充作品链接，直到至少 300 张或最多 30 个作品。补采策略不使用每秒抽帧来凑数量，避免产生大量相似图。
 Electron 参考帧页用于人工筛选：把需要的帧标记为 `high_value` 或 `image2_reference` 后点击“保存精选参考帧”，会复制到 `00_调研/精选参考帧/帧图片/`，并生成 `精选参考帧清单.json`、`参考帧分析任务.json`、`分析拼图/*.jpg` 和待 Codex 写回的 `参考帧分析.json`。
 

@@ -289,8 +289,7 @@ def _resolve_transnet_runtime(
     transnet_root: str | Path | None,
     transnet_weights: str | Path | None,
 ) -> Dict[str, Path]:
-    skill_file = Path(__file__).resolve()
-    default_root = skill_file.parents[4] / "picVideos"
+    default_root = _first_existing(_picvideos_roots()) or _picvideos_roots()[0]
     root = Path(transnet_root or os.environ.get("AI_VIDEO_TRANSNET_ROOT") or default_root)
     python_path = Path(
         transnet_python
@@ -305,6 +304,29 @@ def _resolve_transnet_runtime(
     if not weights.exists():
         raise RuntimeError(f"TransNetV2 weights not found: {weights}")
     return {"root": root, "python": python_path, "weights": weights}
+
+
+def _picvideos_roots() -> List[Path]:
+    skill_root = Path(__file__).resolve().parents[2]
+    roots = [
+        skill_root.parent / "picVideos",
+        skill_root.parent.parent / "picVideos",
+    ]
+    output: List[Path] = []
+    seen = set()
+    for root in roots:
+        key = str(root)
+        if key not in seen:
+            seen.add(key)
+            output.append(root)
+    return output
+
+
+def _first_existing(candidates: List[Path]) -> Path | None:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
 
 
 def _select_scene_midpoint_frames(video_path: Path, scenes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
