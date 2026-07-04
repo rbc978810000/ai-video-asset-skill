@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Video Asset Workbench</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">AI</span>
+          <div>
+            <h1>&#35270;&#39057;&#32032;&#26448;&#24037;&#20316;&#21488;</h1>
+            <p>Codex &#21327;&#20316;&#35266;&#23519;&#31449;</p>
+          </div>
+        </div>
+
+        <nav class="feature-nav" aria-label="&#36719;&#20214;&#21151;&#33021;">
+          <button class="feature active" data-feature="research">
+            <span class="feature-index">1</span>
+            <span>&#35843;&#30740;</span>
+          </button>
+          <button class="feature" data-feature="script">
+            <span class="feature-index">2</span>
+            <span>&#33050;&#26412;&#25776;&#20889;</span>
+          </button>
+          <button class="feature" data-feature="image">
+            <span class="feature-index">3</span>
+            <span>&#29983;&#22270;</span>
+          </button>
+        </nav>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div>
+            <h2 id="featureTitle">&#35843;&#30740;</h2>
+            <p id="projectPath">&#33258;&#21160;&#35782;&#21035;&#24037;&#31243;&#30446;&#24405;&#20013;...</p>
+          </div>
+          <div class="project-picker">
+            <label for="projectSelect">&#24037;&#31243;</label>
+            <select id="projectSelect">
+              <option value="">&#27491;&#22312;&#25195;&#25551;&#24037;&#31243;...</option>
+            </select>
+            <button id="chooseProject">&#25171;&#24320;&#20854;&#20182;</button>
+          </div>
+        </header>
+
+        <main>
+          <section id="feature-research" class="feature-panel active">
+            <div class="research-header">
+              <div>
+                <h3>&#24066;&#22330;&#35843;&#30740;</h3>
+                <p id="projectMeta">&#35831;&#36873;&#25321;&#19968;&#20010;&#24050;&#29983;&#25104;&#30340;&#39033;&#30446;&#12290;</p>
+              </div>
+              <div class="research-tabs" aria-label="&#35843;&#30740;&#35270;&#22270;">
+                <button class="tab active" data-tab="works">&#20316;&#21697;</button>
+                <button class="tab" data-tab="keywords">&#20851;&#38190;&#35789;</button>
+                <button class="tab" data-tab="directions">&#21830;&#19994;&#26041;&#21521;</button>
+                <button class="tab" data-tab="gallery">&#21442;&#32771;&#22270;</button>
+                <button class="tab" data-tab="frames">&#21442;&#32771;&#24103;</button>
+                <button class="tab" data-tab="review">&#23457;&#26680;</button>
+              </div>
+            </div>
+
+            <section id="works" class="panel active"></section>
+            <section id="keywords" class="panel"></section>
+            <section id="directions" class="panel"></section>
+            <section id="gallery" class="panel"></section>
+            <section id="frames" class="panel"></section>
+            <section id="review" class="panel"></section>
+          </section>
+
+          <section id="feature-script" class="feature-panel"></section>
+          <section id="feature-image" class="feature-panel"></section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./src/renderer.js"></script>
+  </body>
+</html>

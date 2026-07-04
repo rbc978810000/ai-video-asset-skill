@@ -1,0 +1,21 @@
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local generated project outputs and bulky media artifacts
+ai-video-asset-skill/output/
+ai-video-asset-skill/perf_tests/
+ai-video-asset-skill/scripts/projects/
+ai-video-asset-skill/scripts/_tmp*/
+ai-video-asset-skill/scripts/video_reference_assets*/
+
+# Electron dependencies installed locally
+ai-video-asset-skill/electron-viewer/node_modules/
+
+# Local environment and secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12

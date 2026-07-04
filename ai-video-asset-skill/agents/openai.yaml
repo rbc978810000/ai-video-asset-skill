@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "AI 视频素材分镜生图"
+  short_description: "先调研主题代表画面，再生成中文分镜、image2 提示词和交付清单。"
+  default_prompt: "使用 $ai-video-asset-skill 先调研一个商业 AI 视频素材选题的代表画面，再生成中文分镜、image2 生图请求和交付清单。"
